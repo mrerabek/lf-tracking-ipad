@@ -25,14 +25,18 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf">
                                 <rect key="frame" x="28" y="167" width="969" height="325.5"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="007_007" translatesAutoresizingMaskIntoConstraints="NO" id="rV3-3B-Sdj">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bikes/007_007" translatesAutoresizingMaskIntoConstraints="NO" id="rV3-3B-Sdj">
                                         <rect key="frame" x="0.0" y="0.0" width="469.5" height="325.5"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="325.5" id="MZm-ci-ZcN"/>
                                             <constraint firstAttribute="width" constant="469.5" id="Ye3-Wr-5DW"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="KtV-tQ-2GS" appends="YES" id="hZ9-DB-rRV"/>
+                                        </connections>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="007_007" translatesAutoresizingMaskIntoConstraints="NO" id="111-jg-Sei">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bikes/007_007" translatesAutoresizingMaskIntoConstraints="NO" id="111-jg-Sei">
                                         <rect key="frame" x="499.5" y="0.0" width="469.5" height="325.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="469.5" id="LCJ-Hu-TjB"/>
@@ -54,11 +58,16 @@
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="KtV-tQ-2GS">
+                    <connections>
+                        <action selector="moveImage:" destination="BYZ-38-t0r" id="Mbg-tx-dsu"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.6953125" y="126.5625"/>
         </scene>
     </scenes>
     <resources>
-        <image name="007_007" width="626" height="434"/>
+        <image name="Bikes/007_007" width="626" height="434"/>
     </resources>
 </document>
