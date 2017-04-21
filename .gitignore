@@ -1,2 +1,4 @@
 .DS_Store
 LFTracking/.DS_Store
+*.xcuserstate
+LFTracking/LFTracking.xcodeproj/xcuserdata/

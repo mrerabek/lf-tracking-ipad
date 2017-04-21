@@ -13,6 +13,7 @@
 		035407BB1EAA4526001530F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 035407BA1EAA4526001530F1 /* Assets.xcassets */; };
 		035407BE1EAA4526001530F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035407BC1EAA4526001530F1 /* LaunchScreen.storyboard */; };
 		035407C91EAA4526001530F1 /* LFTrackingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035407C81EAA4526001530F1 /* LFTrackingTests.swift */; };
+		038A28ED1EAAA3FD00E5A44D /* LFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038A28EC1EAAA3FD00E5A44D /* LFImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		035407C41EAA4526001530F1 /* LFTrackingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFTrackingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		035407C81EAA4526001530F1 /* LFTrackingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFTrackingTests.swift; sourceTree = "<group>"; };
 		035407CA1EAA4526001530F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		038A28EC1EAAA3FD00E5A44D /* LFImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			children = (
 				035407B31EAA4526001530F1 /* AppDelegate.swift */,
 				035407B51EAA4526001530F1 /* ViewController.swift */,
+				038A28EC1EAAA3FD00E5A44D /* LFImage.swift */,
 				035407B71EAA4526001530F1 /* Main.storyboard */,
 				035407BA1EAA4526001530F1 /* Assets.xcassets */,
 				035407BC1EAA4526001530F1 /* LaunchScreen.storyboard */,
@@ -201,6 +204,7 @@
 			files = (
 				035407B61EAA4526001530F1 /* ViewController.swift in Sources */,
 				035407B41EAA4526001530F1 /* AppDelegate.swift in Sources */,
+				038A28ED1EAAA3FD00E5A44D /* LFImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +414,7 @@
 				035407CF1EAA4526001530F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		035407D01EAA4526001530F1 /* Build configuration list for PBXNativeTarget "LFTrackingTests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +423,7 @@
 				035407D21EAA4526001530F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

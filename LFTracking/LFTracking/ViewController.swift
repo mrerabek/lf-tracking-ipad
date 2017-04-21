@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    //MARK: Properties
+    @IBOutlet weak var imageStack: LFImage!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -24,15 +27,9 @@ class ViewController: UIViewController {
     
     @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self.view)
-        moveImage(translation: translation)
+        imageStack.moveImage(translation: translation)
         
         sender.setTranslation(CGPoint(x: 0,y :0), in: self.view)
-    }
-    
-    //MARK: Private Methods
-    
-    func moveImage(translation: CGPoint) {
-        
     }
     
 }

@@ -22,32 +22,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf">
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" customClass="LFImage" customModule="LFTracking" customModuleProvider="target">
                                 <rect key="frame" x="28" y="167" width="969" height="325.5"/>
-                                <subviews>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bikes/007_007" translatesAutoresizingMaskIntoConstraints="NO" id="rV3-3B-Sdj">
-                                        <rect key="frame" x="0.0" y="0.0" width="469.5" height="325.5"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="325.5" id="MZm-ci-ZcN"/>
-                                            <constraint firstAttribute="width" constant="469.5" id="Ye3-Wr-5DW"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="KtV-tQ-2GS" appends="YES" id="hZ9-DB-rRV"/>
-                                        </connections>
-                                    </imageView>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bikes/007_007" translatesAutoresizingMaskIntoConstraints="NO" id="111-jg-Sei">
-                                        <rect key="frame" x="499.5" y="0.0" width="469.5" height="325.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="469.5" id="LCJ-Hu-TjB"/>
-                                            <constraint firstAttribute="height" constant="325.5" id="mAm-jD-sf9"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="rV3-3B-Sdj" firstAttribute="leading" secondItem="gIw-aY-tYf" secondAttribute="leading" id="BY8-oH-ISh"/>
-                                    <constraint firstItem="rV3-3B-Sdj" firstAttribute="top" secondItem="gIw-aY-tYf" secondAttribute="top" id="R22-RA-y1C"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -56,6 +32,9 @@
                             <constraint firstItem="gIw-aY-tYf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="GIu-Tc-4MQ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="ImageStack" destination="gIw-aY-tYf" id="7vw-8e-J4g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="KtV-tQ-2GS">
@@ -67,7 +46,4 @@
             <point key="canvasLocation" x="137.6953125" y="126.5625"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Bikes/007_007" width="626" height="434"/>
-    </resources>
 </document>
