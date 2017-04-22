@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class LFImage: UIStackView {
+@IBDesignable class LFImage: UIStackView, UIGestureRecognizerDelegate {
     
     //MARK: Properties
     @IBInspectable var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
@@ -21,18 +21,14 @@ import UIKit
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupImages()
+        //setupImages()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
-        setupImages()
+        //setupImages()
     }
     
-    //MARK: User Interaction
-    func moveImage(translation: CGPoint) {
-        
-    }
     
     //MARK: Private Methods
     
@@ -49,10 +45,23 @@ import UIKit
             img.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
             img.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
             
+            // Add recognizer
+            let recognizer = UIPanGestureRecognizer(target: self, action:#selector(self.moveImage(recognizer:)))
+            recognizer.delegate = self
+            
             images.append(img)
             addArrangedSubview(img)
         }
         
+    }
+    
+    @objc private func moveImage(recognizer: UIPanGestureRecognizer) {
+        print("moveImage")
+        let newImage = UIImage(named: "Bikes/000_007")
+        
+        for img in images{
+            img.image = newImage
+        }
     }
 
 }
