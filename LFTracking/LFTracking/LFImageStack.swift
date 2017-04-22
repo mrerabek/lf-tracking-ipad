@@ -11,9 +11,9 @@ import UIKit
 @IBDesignable class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     
     //MARK: Properties
+    
     @IBInspectable var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
     
-    //MARK: Attributes
     private var images: [UIImageView] = [UIImageView]()
     private var currentImage: CGPoint = CGPoint(x: 7, y: 7)
 
@@ -28,7 +28,6 @@ import UIKit
         super.init(coder: coder)
         setupImages()
     }
-    
     
     //MARK: Private Methods
     
@@ -57,8 +56,8 @@ import UIKit
         
     }
     
-    func moveImage(recognizer: UIPanGestureRecognizer) {
-        print("moveImage")
+    @objc private func moveImage(recognizer: UIPanGestureRecognizer) {
+
         let newImage = UIImage(named: "Bikes/000_007")
         
         for img in images{
