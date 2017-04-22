@@ -1,5 +1,5 @@
 //
-//  LFImage.swift
+//  LFImageStack.swift
 //  LFTracking
 //
 //  Created by Tanguy Albrici on 21.04.17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class LFImage: UIStackView, UIGestureRecognizerDelegate {
+@IBDesignable class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     
     //MARK: Properties
     @IBInspectable var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
@@ -34,7 +34,7 @@ import UIKit
     
     private func setupImages() {
         
-        // Add two image to the stack
+        // Add two images to the stack
         for _ in 0..<2{
             
             let img = UIImageView()
@@ -47,8 +47,9 @@ import UIKit
             img.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
             
             // Add recognizer
-            let recognizer = UIPanGestureRecognizer(target: img, action:#selector(self.moveImage(recognizer:)))
+            let recognizer = UIPanGestureRecognizer(target: self, action:#selector(LFImageStack.moveImage(recognizer:)))
             recognizer.delegate = self
+            img.addGestureRecognizer(recognizer)
             
             images.append(img)
             addArrangedSubview(img)
@@ -56,7 +57,7 @@ import UIKit
         
     }
     
-    @objc private func moveImage(recognizer: UIPanGestureRecognizer) {
+    func moveImage(recognizer: UIPanGestureRecognizer) {
         print("moveImage")
         let newImage = UIImage(named: "Bikes/000_007")
         
