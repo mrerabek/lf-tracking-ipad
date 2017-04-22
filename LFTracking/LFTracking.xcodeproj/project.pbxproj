@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0330B5411EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0330B5401EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift */; };
 		035407B41EAA4526001530F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035407B31EAA4526001530F1 /* AppDelegate.swift */; };
 		035407B61EAA4526001530F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035407B51EAA4526001530F1 /* ViewController.swift */; };
 		035407B91EAA4526001530F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035407B71EAA4526001530F1 /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0330B5401EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		035407B01EAA4526001530F1 /* LFTracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFTracking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		035407B31EAA4526001530F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		035407B51EAA4526001530F1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				035407B31EAA4526001530F1 /* AppDelegate.swift */,
 				035407B51EAA4526001530F1 /* ViewController.swift */,
 				038A28EC1EAAA3FD00E5A44D /* LFImageStack.swift */,
+				0330B5401EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift */,
 				035407B71EAA4526001530F1 /* Main.storyboard */,
 				035407BA1EAA4526001530F1 /* Assets.xcassets */,
 				035407BC1EAA4526001530F1 /* LaunchScreen.storyboard */,
@@ -204,6 +207,7 @@
 			files = (
 				035407B61EAA4526001530F1 /* ViewController.swift in Sources */,
 				035407B41EAA4526001530F1 /* AppDelegate.swift in Sources */,
+				0330B5411EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift in Sources */,
 				038A28ED1EAAA3FD00E5A44D /* LFImageStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

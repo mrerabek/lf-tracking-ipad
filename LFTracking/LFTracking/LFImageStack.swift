@@ -14,7 +14,9 @@ import UIKit
     
     @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
     @IBInspectable private var defaultImage: CGPoint = CGPoint(x: 7, y: 7)
-    @IBInspectable private var moveUnit: Int = 30
+    @IBInspectable private var moveUnit: Int = 20
+    @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
+
     private var tapPosition: CGPoint = CGPoint()
     private var baseImage: CGPoint = CGPoint()
     private var currentImage: CGPoint = CGPoint()
@@ -26,24 +28,45 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        baseImage = defaultImage
-        currentImage = defaultImage
-        print(currentImage)
         setupImages()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         
-        baseImage = defaultImage
-        currentImage = defaultImage
-        print(currentImage)
         setupImages()
+    }
+    
+    //MARK: Gesture Handlers
+    
+    func tapImage(tapGesture: UITapGestureRecognizer){
+        baseImage = currentImage
+        tapPosition = tapGesture.location(in: self)
+    }
+    
+    func panImage(panGesture: UIPanGestureRecognizer) {
+        
+        let translation = panGesture.translation(in: self)
+        
+        let diffX = Int(-translation.x / CGFloat(moveUnit))
+        let diffY = Int(-translation.y / CGFloat(moveUnit))
+        
+        let newImgX = clampInteger(Int(baseImage.x) + diffX, minimum: 0, maximum: Int(angularResolution.width) - 1)
+        let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: 0, maximum: Int(angularResolution.height) - 1)
+        nextImage = CGPoint(x: newImgX, y: newImgY)
+        
+        if(nextImage != currentImage){
+            displayNextImage()
+        }
+        
     }
     
     //MARK: Private Methods
     
     private func setupImages() {
+        
+        baseImage = defaultImage
+        currentImage = defaultImage
         
         // Add two images to the stack
         for _ in 0..<2{
@@ -58,13 +81,13 @@ import UIKit
             img.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
             img.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
             
+            // Add tap gesture recognizer
+            let tapGesture = TouchDownGestureRecognizer(target: self, action:#selector(LFImageStack.tapImage(tapGesture:)))
+            img.addGestureRecognizer(tapGesture)
+            
             // Add pan gesture recognizer
             let panGesture = UIPanGestureRecognizer(target: self, action:#selector(LFImageStack.panImage(panGesture:)))
             img.addGestureRecognizer(panGesture)
-            
-            // Add tap gesture recognizer
-            let tapGesture = UITapGestureRecognizer(target: self, action:#selector(LFImageStack.tapImage(tapGesture:)))
-            img.addGestureRecognizer(tapGesture)
             
             images.append(img)
             addArrangedSubview(img)
@@ -72,36 +95,12 @@ import UIKit
         
     }
     
-    @objc private func tapImage(tapGesture: UITapGestureRecognizer){
-        print("tap")
-        baseImage = currentImage
-        tapPosition = tapGesture.location(in: self)
-    }
-    
-    @objc private func panImage(panGesture: UIPanGestureRecognizer) {
-
-        //let newImage = UIImage(named: "Bikes/000_007")
-        let translation = panGesture.translation(in: self)
+    private func displayNextImage() {
+        currentImage = nextImage
         
-        let diffX = Int(-translation.x / CGFloat(moveUnit))
-        let diffY = Int(-translation.y / CGFloat(moveUnit))
-        
-        let newImgX = clampInteger(Int(baseImage.x) + diffX, minimum: 0, maximum: 14)
-        let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: 0, maximum: 14)
-        nextImage = CGPoint(x: newImgX, y: newImgY)
-        
-        if(nextImage != currentImage){
-            //print(String(format: "(%02d, %02d)", diffX, diffY))
-            
-            currentImage = nextImage
-            
-            print(currentImage)
-            
-            for img in images{
-                img.image = UIImage(named: getCurrentImageName())
-            }
+        for img in images{
+            img.image = UIImage(named: getCurrentImageName())
         }
-        
     }
     
     private func getCurrentImageName() -> String {
