@@ -21,12 +21,12 @@ import UIKit
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //setupImages()
+        setupImages()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
-        //setupImages()
+        setupImages()
     }
     
     
@@ -39,6 +39,7 @@ import UIKit
             
             let img = UIImageView()
             img.image = UIImage(named: "Bikes/007_007")
+            img.isUserInteractionEnabled = true
             
             // Add constraints
             img.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +47,7 @@ import UIKit
             img.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
             
             // Add recognizer
-            let recognizer = UIPanGestureRecognizer(target: self, action:#selector(self.moveImage(recognizer:)))
+            let recognizer = UIPanGestureRecognizer(target: img, action:#selector(self.moveImage(recognizer:)))
             recognizer.delegate = self
             
             images.append(img)

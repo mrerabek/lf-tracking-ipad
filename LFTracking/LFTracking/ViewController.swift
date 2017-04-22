@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     
     //MARK: Properties
     @IBOutlet weak var imageStack: LFImage!
-    @IBOutlet weak var image: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +24,10 @@ class ViewController: UIViewController {
     }
 
     // MARK: Actions
-    @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
-        print("panGesture")
-        image.image = UIImage(named: "Bikes/000_007")
-    }
+//    @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
+//        print("panGesture")
+//        image.image = UIImage(named: "Bikes/000_007")
+//    }
     
 //    @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
 //        print("panGesture")

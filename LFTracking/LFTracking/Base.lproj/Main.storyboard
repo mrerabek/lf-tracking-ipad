@@ -22,21 +22,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" customClass="LFImage" customModule="LFTracking" customModuleProvider="target">
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" customClass="LFImage" customModule="LFTracking" customModuleProvider="target">
                                 <rect key="frame" x="28" y="167" width="469.5" height="325.5"/>
-                                <subviews>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bikes/007_007" translatesAutoresizingMaskIntoConstraints="NO" id="Lwt-hw-LZP">
-                                        <rect key="frame" x="0.0" y="0.0" width="469.5" height="325.5"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="325.5" id="MuD-Ci-oXp"/>
-                                            <constraint firstAttribute="width" constant="469.5" id="m3Z-d2-tor"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="UG3-CT-Qho" appends="YES" id="GpK-MD-HJW"/>
-                                        </connections>
-                                    </imageView>
-                                </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -47,7 +34,6 @@
                     </view>
                     <connections>
                         <outlet property="ImageStack" destination="gIw-aY-tYf" id="7vw-8e-J4g"/>
-                        <outlet property="image" destination="Lwt-hw-LZP" id="6Vw-4x-rLb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -60,7 +46,4 @@
             <point key="canvasLocation" x="137.6953125" y="126.5625"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Bikes/007_007" width="626" height="434"/>
-    </resources>
 </document>
