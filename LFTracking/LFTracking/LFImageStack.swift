@@ -13,14 +13,14 @@ import UIKit
     //MARK: Properties
     
     @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
-    @IBInspectable private var defaultImage: CGPoint = CGPoint(x: 7, y: 7)
+    @IBInspectable private var defaultImage: ImageIndex = ImageIndex(x: 7, y: 7, depth: nil)
     @IBInspectable private var moveUnit: Int = 20
     @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
     @IBInspectable private var depthResolution: Int = 11
 
-    private var baseImage: CGPoint = CGPoint()
-    private var currentImage: CGPoint = CGPoint()
-    private var nextImage: CGPoint = CGPoint()
+    private var baseImage: ImageIndex = ImageIndex()
+    private var currentImage: ImageIndex = ImageIndex()
+    private var nextImage: ImageIndex = ImageIndex()
     private var currentDepthMap: UIImage = UIImage(named: "Bike_depth") ?? UIImage()
     private var images: [UIImageView] = [UIImageView]()
 
@@ -44,7 +44,7 @@ import UIKit
         baseImage = currentImage
     }
     
-    func panImage(panGesture: UIPanGestureRecognizer) {
+    func moveImage(panGesture: UIPanGestureRecognizer) {
         
         let translation = panGesture.translation(in: self)
         
@@ -53,27 +53,24 @@ import UIKit
         
         let newImgX = clampInteger(Int(baseImage.x) + diffX, minimum: 0, maximum: Int(angularResolution.width) - 1)
         let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: 0, maximum: Int(angularResolution.height) - 1)
-        nextImage = CGPoint(x: newImgX, y: newImgY)
+        nextImage = ImageIndex(x: newImgX, y: newImgY, depth: nil)
         
         if(nextImage != currentImage){
-            displayNextImage()
+            displayImage(nextImage)
         }
         
     }
     
-    func doubleTapImage(tapGesture: UITapGestureRecognizer){
+    func refocusImage(tapGesture: UITapGestureRecognizer){
         let tapPosition = tapGesture.location(in: tapGesture.view)
         let positionInImage = CGPoint(x: round(tapPosition.x * 4/3), y: round(tapPosition.y * 4/3))
-        print(positionInImage)
         
         let depth = currentDepthMap.getPixelColorGrayscale(pos: positionInImage)
         let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
-        print("depth : "+focusDepth.description)
         
-        let imageName = String(format: "Bikes/007_007_%03d", focusDepth)
-        for img in images{
-            img.image = UIImage(named: imageName)
-        }
+        nextImage = ImageIndex(x: defaultImage.x, y: defaultImage.y, depth: focusDepth)
+        
+        displayImage(nextImage)
     }
     
     //MARK: Private Methods
@@ -101,11 +98,11 @@ import UIKit
             img.addGestureRecognizer(touchGesture)
             
             // Add pan gesture recognizer
-            let panGesture = UIPanGestureRecognizer(target: self, action:#selector(LFImageStack.panImage(panGesture:)))
+            let panGesture = UIPanGestureRecognizer(target: self, action:#selector(LFImageStack.moveImage(panGesture:)))
             img.addGestureRecognizer(panGesture)
             
             // Add double tap gesture recognizer (for refocusing)
-            let doubleTapGesture = UITapGestureRecognizer(target: self, action:#selector(LFImageStack.doubleTapImage(tapGesture:)))
+            let doubleTapGesture = UITapGestureRecognizer(target: self, action:#selector(LFImageStack.refocusImage(tapGesture:)))
             doubleTapGesture.numberOfTapsRequired = 2
             img.addGestureRecognizer(doubleTapGesture)
             
@@ -115,8 +112,9 @@ import UIKit
         
     }
     
-    private func displayNextImage() {
-        currentImage = nextImage
+    // Display the image
+    private func displayImage(_ imageToDisplay: ImageIndex) {
+        currentImage = imageToDisplay
         
         for img in images{
             img.image = UIImage(named: getCurrentImageName())
@@ -124,7 +122,16 @@ import UIKit
     }
     
     private func getCurrentImageName() -> String {
-        let imageName = String(format: "Bikes/%03d_%03d", Int(currentImage.x), Int(currentImage.y))
+        var imageName = ""
+        
+        if let depth = currentImage.depth {
+            // Use the refocused images
+            imageName = String(format: "Bikes/%03d_%03d_%03d", Int(currentImage.x), Int(currentImage.y), depth)
+        }else {
+            // Use the standard images
+            imageName = String(format: "Bikes/%03d_%03d", Int(currentImage.x), Int(currentImage.y))
+        }
+        
         return imageName
     }
     
@@ -136,7 +143,7 @@ import UIKit
 
 }
 
-//On the top of your swift
+
 extension UIImage {
     func getPixelColor(pos: CGPoint) -> UIColor {
         
