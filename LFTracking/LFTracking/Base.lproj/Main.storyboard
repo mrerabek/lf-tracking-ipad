@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
                                 <rect key="frame" x="28" y="167" width="969" height="325.5"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="point" keyPath="defaultImage">

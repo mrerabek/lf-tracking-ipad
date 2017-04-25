@@ -22,13 +22,9 @@ class TouchDownGestureRecognizer: UIGestureRecognizer {
         self.state = .failed
     }
     
+    // The touchdown gesture should not prevent a pan gesture or a tap gesture
     override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
-        // The touchdown gesture should not prevent a pan gesture
-        if preventedGestureRecognizer is UIPanGestureRecognizer{
-            return false
-        }
-        
-        return super.canPrevent(preventedGestureRecognizer)
+        return false
     }
     
 }

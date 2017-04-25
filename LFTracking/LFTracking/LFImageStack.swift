@@ -17,10 +17,10 @@ import UIKit
     @IBInspectable private var moveUnit: Int = 20
     @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
 
-    private var tapPosition: CGPoint = CGPoint()
     private var baseImage: CGPoint = CGPoint()
     private var currentImage: CGPoint = CGPoint()
     private var nextImage: CGPoint = CGPoint()
+    private var currentDepthMap: UIImage = UIImage(named: "Bike_depth") ?? UIImage()
     private var images: [UIImageView] = [UIImageView]()
 
     //MARK: Initialization
@@ -39,9 +39,8 @@ import UIKit
     
     //MARK: Gesture Handlers
     
-    func tapImage(tapGesture: UITapGestureRecognizer){
+    func touchImage(touchGesture: UITapGestureRecognizer){
         baseImage = currentImage
-        tapPosition = tapGesture.location(in: self)
     }
     
     func panImage(panGesture: UIPanGestureRecognizer) {
@@ -61,6 +60,17 @@ import UIKit
         
     }
     
+    func doubleTapImage(tapGesture: UITapGestureRecognizer){
+        let tapPosition = tapGesture.location(in: tapGesture.view)
+        let positionInImage = CGPoint(x: round(tapPosition.x * 4/3), y: round(tapPosition.y * 4/3))
+        print(positionInImage)
+        
+        let depth = currentDepthMap.getPixelColorGrayscale(pos: positionInImage)
+        let color = images[0].image!.getPixelColor(pos: positionInImage)
+        print("depth : "+depth.description)
+        print("color : "+color.description)
+    }
+    
     //MARK: Private Methods
     
     private func setupImages() {
@@ -72,8 +82,14 @@ import UIKit
         for _ in 0..<2{
             
             let img = UIImageView()
-            
             img.image = UIImage(named: getCurrentImageName())
+           
+//            if i%2==0 {
+//                img.image = UIImage(named: getCurrentImageName())
+//            }else{
+//                img.image = currentDepthMap
+//            }
+            
             img.isUserInteractionEnabled = true
             
             // Add constraints
@@ -81,13 +97,18 @@ import UIKit
             img.heightAnchor.constraint(equalToConstant: imageSize.height).isActive = true
             img.widthAnchor.constraint(equalToConstant: imageSize.width).isActive = true
             
-            // Add tap gesture recognizer
-            let tapGesture = TouchDownGestureRecognizer(target: self, action:#selector(LFImageStack.tapImage(tapGesture:)))
-            img.addGestureRecognizer(tapGesture)
+            // Add touch gesture recognizer
+            let touchGesture = TouchDownGestureRecognizer(target: self, action:#selector(LFImageStack.touchImage(touchGesture:)))
+            img.addGestureRecognizer(touchGesture)
             
             // Add pan gesture recognizer
             let panGesture = UIPanGestureRecognizer(target: self, action:#selector(LFImageStack.panImage(panGesture:)))
             img.addGestureRecognizer(panGesture)
+            
+            // Add double tap gesture recognizer (for refocusing)
+            let doubleTapGesture = UITapGestureRecognizer(target: self, action:#selector(LFImageStack.doubleTapImage(tapGesture:)))
+            doubleTapGesture.numberOfTapsRequired = 2
+            img.addGestureRecognizer(doubleTapGesture)
             
             images.append(img)
             addArrangedSubview(img)
@@ -114,4 +135,35 @@ import UIKit
         return max(minimum, min(maximum, x))
     }
 
+}
+
+//On the top of your swift
+extension UIImage {
+    func getPixelColor(pos: CGPoint) -> UIColor {
+        
+        let pixelData = self.cgImage!.dataProvider!.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 4
+        
+        let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+        let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+        let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+        
+        return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+    
+    func getPixelColorGrayscale(pos: CGPoint) -> UIColor {
+        
+        let pixelData = self.cgImage!.dataProvider!.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        
+        let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 2
+        
+        let g = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+        let a = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        
+        return UIColor(red: g, green: g, blue: g, alpha: a)
+    }
 }
