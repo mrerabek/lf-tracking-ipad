@@ -16,6 +16,7 @@ import UIKit
     @IBInspectable private var defaultImage: CGPoint = CGPoint(x: 7, y: 7)
     @IBInspectable private var moveUnit: Int = 20
     @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
+    @IBInspectable private var depthResolution: Int = 11
 
     private var baseImage: CGPoint = CGPoint()
     private var currentImage: CGPoint = CGPoint()
@@ -66,9 +67,13 @@ import UIKit
         print(positionInImage)
         
         let depth = currentDepthMap.getPixelColorGrayscale(pos: positionInImage)
-        let color = images[0].image!.getPixelColor(pos: positionInImage)
-        print("depth : "+depth.description)
-        print("color : "+color.description)
+        let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
+        print("depth : "+focusDepth.description)
+        
+        let imageName = String(format: "Bikes/007_007_%03d", focusDepth)
+        for img in images{
+            img.image = UIImage(named: imageName)
+        }
     }
     
     //MARK: Private Methods
@@ -83,12 +88,6 @@ import UIKit
             
             let img = UIImageView()
             img.image = UIImage(named: getCurrentImageName())
-           
-//            if i%2==0 {
-//                img.image = UIImage(named: getCurrentImageName())
-//            }else{
-//                img.image = currentDepthMap
-//            }
             
             img.isUserInteractionEnabled = true
             
@@ -154,7 +153,7 @@ extension UIImage {
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
     
-    func getPixelColorGrayscale(pos: CGPoint) -> UIColor {
+    func getPixelColorGrayscale(pos: CGPoint) -> CGFloat {
         
         let pixelData = self.cgImage!.dataProvider!.data
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
@@ -162,8 +161,9 @@ extension UIImage {
         let pixelInfo: Int = ((Int(self.size.width) * Int(pos.y)) + Int(pos.x)) * 2
         
         let g = CGFloat(data[pixelInfo]) / CGFloat(255.0)
-        let a = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+        // alpha channel is not needed
+        // let a = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
         
-        return UIColor(red: g, green: g, blue: g, alpha: a)
+        return g
     }
 }
