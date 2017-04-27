@@ -69,6 +69,7 @@ import UIKit
         let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
         
         refocusEffect(depth: focusDepth)
+        writeOutput()
     }
     
     //MARK: Private Methods
@@ -108,6 +109,21 @@ import UIKit
             addArrangedSubview(img)
         }
         
+    }
+    
+    private func writeOutput(){
+
+        // File location
+        let fileURLProject = NSURL.fileURL(withPath: Bundle.main.path(forResource: "output", ofType: "txt")!)
+        print(fileURLProject)
+        let writeString = "Hello world"
+
+        do {
+            // Write to the file
+            try writeString.write(to: fileURLProject, atomically: true, encoding: String.Encoding.utf8)
+        } catch let error as NSError {
+            print("Failed writing to URL: \(fileURLProject), Error: " + error.localizedDescription)
+        }
     }
     
     // Display the image

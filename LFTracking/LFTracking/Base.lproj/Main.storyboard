@@ -31,12 +31,12 @@
                                 </userDefinedRuntimeAttributes>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8yB-a0-7H3"/>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="147" id="BMX-uE-1HL"/>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="GIu-Tc-4MQ"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gIw-aY-tYf" secondAttribute="bottom" constant="275" id="IPQ-e6-1Hn"/>
+                            <constraint firstItem="gIw-aY-tYf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="JHL-aH-2Mf"/>
+                            <constraint firstItem="gIw-aY-tYf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PA0-PG-cCh"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gIw-aY-tYf" secondAttribute="bottom" constant="275" id="RLK-Lw-dze"/>
+                            <constraint firstItem="gIw-aY-tYf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="147" id="aNt-Tv-rlz"/>
                         </constraints>
                     </view>
                 </viewController>
