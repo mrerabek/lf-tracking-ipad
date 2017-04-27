@@ -22,8 +22,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
-                                <rect key="frame" x="28" y="167" width="969" height="325.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
+                                <rect key="frame" x="28" y="167" width="969" height="326"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="point" keyPath="defaultImage">
                                         <point key="value" x="0.0" y="0.0"/>
@@ -33,8 +33,10 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="gIw-aY-tYf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8yB-a0-7H3"/>
                             <constraint firstItem="gIw-aY-tYf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="147" id="BMX-uE-1HL"/>
                             <constraint firstItem="gIw-aY-tYf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="GIu-Tc-4MQ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gIw-aY-tYf" secondAttribute="bottom" constant="275" id="IPQ-e6-1Hn"/>
                         </constraints>
                     </view>
                 </viewController>

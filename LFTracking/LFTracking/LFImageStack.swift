@@ -68,9 +68,7 @@ import UIKit
         let depth = currentDepthMap.getPixelColorGrayscale(pos: positionInImage)
         let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
         
-        nextImage = ImageIndex(x: defaultImage.x, y: defaultImage.y, depth: focusDepth)
-        
-        displayImage(nextImage)
+        refocusEffect(depth: focusDepth)
     }
     
     //MARK: Private Methods
@@ -116,19 +114,45 @@ import UIKit
     private func displayImage(_ imageToDisplay: ImageIndex) {
         currentImage = imageToDisplay
         
+        
         for img in images{
             img.image = UIImage(named: getCurrentImageName())
         }
+    }
+    
+    private func refocusEffect(depth: Int) {
+        if var currentDepth = currentImage.depth {
+            
+            currentDepth += (depth - currentDepth > 0 ? 1 : -1)
+            
+            moveFocus(depth: currentDepth)
+            
+            if currentDepth != depth {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: {
+                    self.refocusEffect(depth: depth)
+                })
+            }
+            
+        }else {
+            moveFocus(depth: depth)
+        }
+        
+    }
+    
+    private func moveFocus(depth: Int) {
+        nextImage = ImageIndex(x: defaultImage.x, y: defaultImage.y, depth: depth)
+        
+        displayImage(nextImage)
     }
     
     private func getCurrentImageName() -> String {
         var imageName = ""
         
         if let depth = currentImage.depth {
-            // Use the refocused images
+            // if currentImage.depth is defined, use the refocused images
             imageName = String(format: "Bikes/%03d_%03d_%03d", Int(currentImage.x), Int(currentImage.y), depth)
         }else {
-            // Use the standard images
+            // Otherwise the standard images
             imageName = String(format: "Bikes/%03d_%03d", Int(currentImage.x), Int(currentImage.y))
         }
         
