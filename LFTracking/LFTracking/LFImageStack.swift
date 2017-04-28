@@ -23,18 +23,27 @@ import UIKit
     private var nextImage: ImageIndex = ImageIndex()
     private var currentDepthMap: UIImage = UIImage(named: "Bike_depth") ?? UIImage()
     private var images: [UIImageView] = [UIImageView]()
-
+    
+    private var trackingFile: URL? = nil
+    private var answersFile: URL? = nil
+    
+    private var previousTime: Int? = nil
+    private var currentTime: Int? = nil
+    
+    
     //MARK: Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setupOutputFiles()
         setupImages()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         
+        setupOutputFiles()
         setupImages()
     }
     
@@ -69,10 +78,23 @@ import UIKit
         let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
         
         refocusEffect(depth: focusDepth)
-        writeOutput()
     }
     
     //MARK: Private Methods
+    
+    private func setupOutputFiles() {
+        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        
+        // Setup tracking file
+        let trackingFileName = "tracking"
+        trackingFile = DocumentDirURL.appendingPathComponent(trackingFileName).appendingPathExtension("txt")
+        print("trackingFile path: \(trackingFile!.path)")
+        
+        // Setup answers file
+        let answersFileName = "answers"
+        answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
+        print("answersFile path: \(trackingFile!.path)")
+    }
     
     private func setupImages() {
         
@@ -113,16 +135,28 @@ import UIKit
     
     private func writeOutput(){
 
-        // File location
-        let fileURLProject = NSURL.fileURL(withPath: Bundle.main.path(forResource: "output", ofType: "txt")!)
-        print(fileURLProject)
-        let writeString = "Hello world"
-
+        // Save data to file
+        let fileName = "output"
+        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        
+        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
+        print("FilePath: \(fileURL.path)")
+        
+        let writeString = "Write this text to the fileURL as text in iOS using Swift"
         do {
             // Write to the file
-            try writeString.write(to: fileURLProject, atomically: true, encoding: String.Encoding.utf8)
+            try writeString.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
         } catch let error as NSError {
-            print("Failed writing to URL: \(fileURLProject), Error: " + error.localizedDescription)
+            print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
+        }
+    }
+    
+    private func write(_ text: String, toFile: URL?){
+        do {
+            // Write to the file
+            try text.write(to: toFile!, atomically: true, encoding: String.Encoding.utf8)
+        } catch let error as NSError {
+            print("Failed writing to URL: \(toFile!), Error: " + error.localizedDescription)
         }
     }
     
@@ -130,9 +164,21 @@ import UIKit
     private func displayImage(_ imageToDisplay: ImageIndex) {
         currentImage = imageToDisplay
         
+        let currentImageName = getCurrentImageName()
+        write(currentImageName, toFile: trackingFile)
         
         for img in images{
-            img.image = UIImage(named: getCurrentImageName())
+            img.image = UIImage(named: currentImageName)
+        }
+    }
+    
+    private func closeCurrentImage() {
+        previousTime = currentTime
+        currentTime = 0 //TODO:
+        
+        if let prevTime = previousTime {
+            let onScreen = currentTime! - prevTime
+            print(onScreen)
         }
     }
     
