@@ -27,8 +27,8 @@ import UIKit
     private var trackingFile: URL? = nil
     private var answersFile: URL? = nil
     
-    private var previousTime: Int? = nil
-    private var currentTime: Int? = nil
+    private var previousTime: Date? = nil
+    private var currentTime: Date? = nil
     
     
     //MARK: Initialization
@@ -83,17 +83,21 @@ import UIKit
     //MARK: Private Methods
     
     private func setupOutputFiles() {
+        currentTime = Date()
+        
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         
         // Setup tracking file
         let trackingFileName = "tracking"
         trackingFile = DocumentDirURL.appendingPathComponent(trackingFileName).appendingPathExtension("txt")
+        write("", toFile: trackingFile)
         print("trackingFile path: \(trackingFile!.path)")
         
         // Setup answers file
         let answersFileName = "answers"
         answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
-        print("answersFile path: \(trackingFile!.path)")
+        write("", toFile: answersFile)
+        print("answersFile path: \(answersFile!.path)")
     }
     
     private func setupImages() {
@@ -133,53 +137,51 @@ import UIKit
         
     }
     
-    private func writeOutput(){
-
-        // Save data to file
-        let fileName = "output"
-        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        
-        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
-        print("FilePath: \(fileURL.path)")
-        
-        let writeString = "Write this text to the fileURL as text in iOS using Swift"
-        do {
-            // Write to the file
-            try writeString.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
-        } catch let error as NSError {
-            print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
+    private func write(_ string: String, toFile: URL?){
+        if let fileURL = toFile {
+            do {
+                // Write to the file
+                try string.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+            } catch let error as NSError {
+                print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
+            }
         }
     }
     
-    private func write(_ text: String, toFile: URL?){
-        do {
-            // Write to the file
-            try text.write(to: toFile!, atomically: true, encoding: String.Encoding.utf8)
-        } catch let error as NSError {
-            print("Failed writing to URL: \(toFile!), Error: " + error.localizedDescription)
+    private func writeLine(_ string: String, toFile: URL?){
+        if let fileURL = toFile {
+            let fileHandle: FileHandle? = FileHandle(forUpdatingAtPath: fileURL.path)
+            
+            if fileHandle == nil {
+                print("File open failed")
+            } else {
+                let data = (string+"\n" as NSString).data(using: String.Encoding.utf8.rawValue)
+                fileHandle?.seekToEndOfFile()
+                fileHandle?.write(data!)
+                fileHandle?.closeFile()
+            }
         }
     }
     
     // Display the image
     private func displayImage(_ imageToDisplay: ImageIndex) {
+        closeCurrentImage()
         currentImage = imageToDisplay
         
-        let currentImageName = getCurrentImageName()
-        write(currentImageName, toFile: trackingFile)
-        
         for img in images{
-            img.image = UIImage(named: currentImageName)
+            img.image = UIImage(named: getCurrentImageName())
         }
     }
     
     private func closeCurrentImage() {
         previousTime = currentTime
-        currentTime = 0 //TODO:
+        currentTime = Date()
         
-        if let prevTime = previousTime {
-            let onScreen = currentTime! - prevTime
-            print(onScreen)
-        }
+        let currentImageName = getCurrentImageName()
+
+        let onScreen = currentTime! - previousTime!.timeIntervalSince1970
+        writeLine(currentImageName, toFile: trackingFile)
+        print(onScreen)
     }
     
     private func refocusEffect(depth: Int) {

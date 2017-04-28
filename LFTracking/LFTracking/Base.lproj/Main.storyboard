@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,6 +23,9 @@
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
                                 <rect key="frame" x="28" y="167" width="969" height="326"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="969" id="0Qf-Ia-GL6"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="point" keyPath="defaultImage">
                                         <point key="value" x="0.0" y="0.0"/>
@@ -33,10 +35,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="8" id="JHL-aH-2Mf"/>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="PA0-PG-cCh"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gIw-aY-tYf" secondAttribute="bottom" constant="275" id="RLK-Lw-dze"/>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="147" id="aNt-Tv-rlz"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gIw-aY-tYf" secondAttribute="bottom" constant="275" id="7Tf-Ak-pAN"/>
+                            <constraint firstItem="gIw-aY-tYf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hO7-Bi-ssg"/>
+                            <constraint firstItem="gIw-aY-tYf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="147" id="hwu-6y-YY7"/>
                         </constraints>
                     </view>
                 </viewController>
