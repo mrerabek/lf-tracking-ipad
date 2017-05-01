@@ -12,7 +12,11 @@ import UIKit
     
     //MARK: Properties
     
-    @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
+    @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5) {
+        didSet {
+            setupImages()
+        }
+    }
     @IBInspectable private var defaultImage: ImageIndex = ImageIndex(x: 7, y: 7, depth: nil)
     @IBInspectable private var moveUnit: Int = 20
     @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
@@ -97,7 +101,6 @@ import UIKit
         let answersFileName = "answers"
         answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
         write("", toFile: answersFile)
-        print("answersFile path: \(answersFile!.path)")
     }
     
     private func setupImages() {
@@ -105,11 +108,19 @@ import UIKit
         baseImage = defaultImage
         currentImage = defaultImage
         
+        // Title displayed on top of the images
+        let imageTitle = ["Test", "Reference"]
+        
         // Add two images to the stack
-        for _ in 0..<2{
+        for i in 0..<2{
             
+            // Create a vertical stack for to put the image and its title
+            let verticalStack = UIStackView()
+            verticalStack.axis = .vertical
+            
+            let myBundle = Bundle(for: type(of: self))
             let img = UIImageView()
-            img.image = UIImage(named: getCurrentImageName())
+            img.image = UIImage(named: getCurrentImageName(), in: myBundle, compatibleWith: self.traitCollection)
             
             img.isUserInteractionEnabled = true
             
@@ -132,7 +143,20 @@ import UIKit
             img.addGestureRecognizer(doubleTapGesture)
             
             images.append(img)
-            addArrangedSubview(img)
+            
+            // Label for the image title
+            let imageTitleLabel = UILabel()
+            imageTitleLabel.text = imageTitle[i]
+            imageTitleLabel.font = UIFont(name: imageTitleLabel.font.fontName, size: 14)
+            imageTitleLabel.textAlignment = .center
+            
+            imageTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            imageTitleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            
+            verticalStack.addArrangedSubview(imageTitleLabel)
+            verticalStack.addArrangedSubview(img)
+            
+            addArrangedSubview(verticalStack)
         }
         
     }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		03238BF91EAFEFA7001E2B73 /* ImageIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03238BF81EAFEFA7001E2B73 /* ImageIndex.swift */; };
 		0330B5411EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0330B5401EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift */; };
-		0348D0F81EB28C720072BD22 /* output.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0348D0F71EB28C720072BD22 /* output.txt */; };
 		035407B41EAA4526001530F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035407B31EAA4526001530F1 /* AppDelegate.swift */; };
 		035407B61EAA4526001530F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035407B51EAA4526001530F1 /* ViewController.swift */; };
 		035407B91EAA4526001530F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 035407B71EAA4526001530F1 /* Main.storyboard */; };
@@ -32,7 +31,6 @@
 /* Begin PBXFileReference section */
 		03238BF81EAFEFA7001E2B73 /* ImageIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageIndex.swift; sourceTree = "<group>"; };
 		0330B5401EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
-		0348D0F71EB28C720072BD22 /* output.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = output.txt; path = ../../../../../../../Desktop/output.txt; sourceTree = "<group>"; };
 		035407B01EAA4526001530F1 /* LFTracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFTracking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		035407B31EAA4526001530F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		035407B51EAA4526001530F1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 				0330B5401EABA5BA0058DCA6 /* TouchDownGestureRecognizer.swift */,
 				035407B71EAA4526001530F1 /* Main.storyboard */,
 				035407BA1EAA4526001530F1 /* Assets.xcassets */,
-				0348D0F71EB28C720072BD22 /* output.txt */,
 				035407BC1EAA4526001530F1 /* LaunchScreen.storyboard */,
 				035407BF1EAA4526001530F1 /* Info.plist */,
 			);
@@ -193,7 +190,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				035407BE1EAA4526001530F1 /* LaunchScreen.storyboard in Resources */,
-				0348D0F81EB28C720072BD22 /* output.txt in Resources */,
 				035407BB1EAA4526001530F1 /* Assets.xcassets in Resources */,
 				035407B91EAA4526001530F1 /* Main.storyboard in Resources */,
 			);
