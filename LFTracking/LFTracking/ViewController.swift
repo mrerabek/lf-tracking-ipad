@@ -10,12 +10,20 @@ import UIKit
 
 class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    //MARK: Properties
+    
+    @IBOutlet weak var imageStack: LFImageStack!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func didAnswer(button: UIButton) {
+        
     }
     
 }
