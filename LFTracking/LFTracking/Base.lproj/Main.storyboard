@@ -40,6 +40,7 @@
                         <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="answerButtonsStack" destination="xVu-oI-o6x" id="0za-nQ-O9z"/>
                         <outlet property="imageStack" destination="gIw-aY-tYf" id="thI-4O-Llt"/>
                     </connections>
                 </viewController>

@@ -14,9 +14,7 @@ import UIKit
     
     var imageName: String? = nil {
         didSet {
-            if (imageName != nil) {
-                setupImages()
-            }
+            didChangeImageName()
         }
     }
 
@@ -29,7 +27,7 @@ import UIKit
     private var baseImage: ImageIndex = ImageIndex()
     private var currentImage: ImageIndex = ImageIndex()
     private var nextImage: ImageIndex = ImageIndex()
-    private var depthMap: UIImage = UIImage()
+    private var depthMap: UIImage! = nil
     private var images: [UIImageView] = [UIImageView]()
     
     private var previousTime: Date? = nil
@@ -41,13 +39,13 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        //setupImages()
+        setupImages()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         
-        //setupImages()
+        setupImages()
     }
     
     //MARK: Gesture Handlers
@@ -74,22 +72,29 @@ import UIKit
     }
     
     func refocusImage(tapGesture: UITapGestureRecognizer){
-        let tapPosition = tapGesture.location(in: tapGesture.view)
-        let positionInImage = CGPoint(x: round(tapPosition.x * 4/3), y: round(tapPosition.y * 4/3))
-        
-        let depth = depthMap.getPixelColorGrayscale(pos: positionInImage)
-        let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
-        
-        refocusEffect(depth: focusDepth)
+        if let depthMapImage = depthMap {
+            
+            let tapPosition = tapGesture.location(in: tapGesture.view)
+            let positionInImage = CGPoint(x: round(tapPosition.x * 4/3), y: round(tapPosition.y * 4/3))
+            
+            let depth = depthMapImage.getPixelColorGrayscale(pos: positionInImage)
+            let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
+            
+            refocusEffect(depth: focusDepth)
+        }
     }
     
     //MARK: Private Methods
+    
+    private func didChangeImageName(){
+        depthMap = UIImage(named: "\(imageName!)_depth")
+        displayImage(defaultImage)
+    }
     
     private func setupImages() {
 
         baseImage = defaultImage
         currentImage = defaultImage
-        depthMap = UIImage(named: "\(imageName!)_depth")!
         
         currentTime = Date()
         
@@ -162,7 +167,7 @@ import UIKit
         
         let currentImageName = getCurrentImagePath()
 
-        let onScreen = currentTime! - previousTime!.timeIntervalSince1970
+        //let onScreen = currentTime! - previousTime!.timeIntervalSince1970
         ViewController.writeLine(currentImageName, toFile: ViewController.trackingFile)
         //print(onScreen)
     }
@@ -195,14 +200,18 @@ import UIKit
     private func getCurrentImagePath() -> String {
         var imagePath = ""
         
-        if let depth = currentImage.depth {
-            // if currentImage.depth is defined, use the refocused images
-            imagePath = String(format: "%@/%03d_%03d_%03d", imageName!, Int(currentImage.x), Int(currentImage.y), depth)
-        }else {
-            // Otherwise the standard images
-            imagePath = String(format: "%@/%03d_%03d", imageName!, Int(currentImage.x), Int(currentImage.y))
+        if let imgName = imageName {
+            if let depth = currentImage.depth {
+                // if currentImage.depth is defined, use the refocused images
+                imagePath = String(format: "%@/%03d_%03d_%03d", imgName, Int(currentImage.x), Int(currentImage.y), depth)
+            }else {
+                // Otherwise the standard images
+                imagePath = String(format: "%@/%03d_%03d", imgName, Int(currentImage.x), Int(currentImage.y))
+            }
+        } else {
+            // if the imageName is not set, put the default image
+            imagePath = "default"
         }
-        print(imagePath)
         return imagePath
     }
     

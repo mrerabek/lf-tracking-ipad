@@ -17,6 +17,7 @@ import UIKit
                                       "Slightly annoying",
                                       "Perceptible, but not annoying",
                                       "Imperceptible"]
+    var buttons: [UIButton] = []
 
     //MARK: Initialization
     
@@ -42,7 +43,8 @@ import UIKit
             button.backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 1)
             button.layer.cornerRadius = 10
             //button.addTarget(self, action: #selector(didAnswer(button:)), for: .touchUpInside)
-            button.addTarget(ViewController.self, action: #selector(ViewController.didAnswer(button:)), for: .touchUpInside)
+            buttons.append(button)
+            //button.addTarget(ViewController.self, action: #selector(ViewController.didAnswer(button:)), for: .touchUpInside)
             
             button.translatesAutoresizingMaskIntoConstraints = false
             button.heightAnchor.constraint(equalToConstant: 32).isActive = true

@@ -13,6 +13,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     //MARK: Properties
     
     @IBOutlet weak var imageStack: LFImageStack!
+    @IBOutlet weak var answerButtonsStack: AnswerButtonsStack!
     
     
     static var trackingFile: URL? = nil
@@ -21,14 +22,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     private var currentImageIndex: Int = 0
     private var imagesName: [String] = ["Bikes",
                                         "Danger_de_Mort",
-                                        "Flowers",
-                                        "Fountain_&_Vincent_2",
-                                        "Friends_1",
-                                        "Stone_Pillars_Outside", ]
+                                        "Flowers"]
+//                                        "Fountain_&_Vincent_2",
+//                                        "Friends_1",
+//                                        "Stone_Pillars_Outside", ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addButtonsTarget()
         setupOutputFiles()
         imageStack.imageName = imagesName[currentImageIndex]
     }
@@ -37,12 +39,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    @objc static func didAnswer(button: UIButton) {
+    func didAnswer(button: UIButton) {
+        print("didAnswer")
         let answer = button.titleLabel?.text
         ViewController.writeLine(answer!, toFile: ViewController.answersFile)
         
-        //currentImageIndex++
-        //imageStack.imageName = imagesName[currentImageIndex]
+        if (!isLastImage()){
+            currentImageIndex += 1
+            print(imagesName[currentImageIndex])
+            imageStack.imageName = imagesName[currentImageIndex]
+        }
     }
     
     //MARK: Static Methods
@@ -75,6 +81,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: Private Methods
     
+    private func addButtonsTarget() {
+        for button in answerButtonsStack.buttons{
+            button.addTarget(self, action: #selector(ViewController.didAnswer(button:)), for: .touchUpInside)
+        }
+    }
+    
     private func setupOutputFiles() {
         
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -89,6 +101,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let answersFileName = "answers"
         ViewController.answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
         ViewController.write("", toFile: ViewController.answersFile)
+    }
+    
+    private func isLastImage() -> Bool {
+        return currentImageIndex >= (imagesName.count - 1)
     }
     
 }
