@@ -15,7 +15,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var imageStack: LFImageStack!
     @IBOutlet weak var answerButtonsStack: AnswerButtonsStack!
     
-    
     static var trackingFile: URL? = nil
     static var answersFile: URL? = nil
     
@@ -40,13 +39,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func didAnswer(button: UIButton) {
-        print("didAnswer")
         let answer = button.titleLabel?.text
-        ViewController.writeLine(answer!, toFile: ViewController.answersFile)
+        let imgName = imagesName[currentImageIndex].padding(toLength: 30, withPad: " ", startingAt: 0)
+        ViewController.writeLine(String(format:"%@%@", imgName, answer!), toFile: ViewController.answersFile)
         
         if (!isLastImage()){
             currentImageIndex += 1
-            print(imagesName[currentImageIndex])
             imageStack.imageName = imagesName[currentImageIndex]
         }
     }
