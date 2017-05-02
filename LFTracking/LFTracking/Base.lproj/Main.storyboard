@@ -21,29 +21,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
-                                <rect key="frame" x="28" y="160" width="969" height="350.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="969" id="0Qf-Ia-GL6"/>
-                                </constraints>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="gIw-aY-tYf" userLabel="LFImageStack" customClass="LFImageStack" customModule="LFTracking" customModuleProvider="target">
+                                <rect key="frame" x="28" y="127" width="969" height="350.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="How would you rate the impairment of the test image (left) compared to the reference image (right)?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuB-4N-mCC">
-                                <rect key="frame" x="158" y="550" width="709" height="21"/>
+                                <rect key="frame" x="157" y="517" width="709" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="xVu-oI-o6x" customClass="AnswerButtonsStack" customModule="LFTracking" customModuleProvider="target">
-                                <rect key="frame" x="119" y="599" width="786" height="43"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="xVu-oI-o6x" customClass="AnswerButtonsStack" customModule="LFTracking" customModuleProvider="target">
+                                <rect key="frame" x="212" y="564" width="600" height="105"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hO7-Bi-ssg"/>
-                            <constraint firstItem="gIw-aY-tYf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="140" id="hwu-6y-YY7"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="imageStack" destination="gIw-aY-tYf" id="thI-4O-Llt"/>

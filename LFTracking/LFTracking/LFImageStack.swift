@@ -114,10 +114,6 @@ import UIKit
         // Add two images to the stack
         for i in 0..<2{
             
-            // Create a vertical stack for to put the image and its title
-            let verticalStack = UIStackView()
-            verticalStack.axis = .vertical
-            
             let myBundle = Bundle(for: type(of: self))
             let img = UIImageView()
             img.image = UIImage(named: getCurrentImageName(), in: myBundle, compatibleWith: self.traitCollection)
@@ -153,6 +149,10 @@ import UIKit
             imageTitleLabel.translatesAutoresizingMaskIntoConstraints = false
             imageTitleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
             
+            
+            // Create a vertical stack for to put the image and its title
+            let verticalStack = UIStackView()
+            verticalStack.axis = .vertical
             verticalStack.addArrangedSubview(imageTitleLabel)
             verticalStack.addArrangedSubview(img)
             
