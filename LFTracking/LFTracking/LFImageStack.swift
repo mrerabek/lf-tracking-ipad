@@ -12,11 +12,15 @@ import UIKit
     
     //MARK: Properties
     
-    @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5) {
+    var imageName: String? = nil {
         didSet {
-            setupImages()
+            if (imageName != nil) {
+                setupImages()
+            }
         }
     }
+
+    @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
     @IBInspectable private var defaultImage: ImageIndex = ImageIndex(x: 7, y: 7, depth: nil)
     @IBInspectable private var moveUnit: Int = 20
     @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
@@ -25,11 +29,8 @@ import UIKit
     private var baseImage: ImageIndex = ImageIndex()
     private var currentImage: ImageIndex = ImageIndex()
     private var nextImage: ImageIndex = ImageIndex()
-    private var currentDepthMap: UIImage = UIImage(named: "Bike_depth") ?? UIImage()
+    private var depthMap: UIImage = UIImage()
     private var images: [UIImageView] = [UIImageView]()
-    
-    private var trackingFile: URL? = nil
-    private var answersFile: URL? = nil
     
     private var previousTime: Date? = nil
     private var currentTime: Date? = nil
@@ -40,15 +41,13 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupOutputFiles()
-        setupImages()
+        //setupImages()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         
-        setupOutputFiles()
-        setupImages()
+        //setupImages()
     }
     
     //MARK: Gesture Handlers
@@ -78,7 +77,7 @@ import UIKit
         let tapPosition = tapGesture.location(in: tapGesture.view)
         let positionInImage = CGPoint(x: round(tapPosition.x * 4/3), y: round(tapPosition.y * 4/3))
         
-        let depth = currentDepthMap.getPixelColorGrayscale(pos: positionInImage)
+        let depth = depthMap.getPixelColorGrayscale(pos: positionInImage)
         let focusDepth = Int(round(depth * CGFloat(depthResolution-1)))
         
         refocusEffect(depth: focusDepth)
@@ -86,27 +85,13 @@ import UIKit
     
     //MARK: Private Methods
     
-    private func setupOutputFiles() {
-        currentTime = Date()
-        
-        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        
-        // Setup tracking file
-        let trackingFileName = "tracking"
-        trackingFile = DocumentDirURL.appendingPathComponent(trackingFileName).appendingPathExtension("txt")
-        write("", toFile: trackingFile)
-        print("trackingFile path: \(trackingFile!.path)")
-        
-        // Setup answers file
-        let answersFileName = "answers"
-        answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
-        write("", toFile: answersFile)
-    }
-    
     private func setupImages() {
-        
+
         baseImage = defaultImage
         currentImage = defaultImage
+        depthMap = UIImage(named: "\(imageName!)_depth")!
+        
+        currentTime = Date()
         
         // Title displayed on top of the images
         let imageTitle = ["Test", "Reference"]
@@ -116,7 +101,7 @@ import UIKit
             
             let myBundle = Bundle(for: type(of: self))
             let img = UIImageView()
-            img.image = UIImage(named: getCurrentImageName(), in: myBundle, compatibleWith: self.traitCollection)
+            img.image = UIImage(named: getCurrentImagePath(), in: myBundle, compatibleWith: self.traitCollection)
             
             img.isUserInteractionEnabled = true
             
@@ -161,39 +146,13 @@ import UIKit
         
     }
     
-    private func write(_ string: String, toFile: URL?){
-        if let fileURL = toFile {
-            do {
-                // Write to the file
-                try string.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
-            } catch let error as NSError {
-                print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
-            }
-        }
-    }
-    
-    private func writeLine(_ string: String, toFile: URL?){
-        if let fileURL = toFile {
-            let fileHandle: FileHandle? = FileHandle(forUpdatingAtPath: fileURL.path)
-            
-            if fileHandle == nil {
-                print("File open failed")
-            } else {
-                let data = (string+"\n" as NSString).data(using: String.Encoding.utf8.rawValue)
-                fileHandle?.seekToEndOfFile()
-                fileHandle?.write(data!)
-                fileHandle?.closeFile()
-            }
-        }
-    }
-    
     // Display the image
     private func displayImage(_ imageToDisplay: ImageIndex) {
         closeCurrentImage()
         currentImage = imageToDisplay
         
         for img in images{
-            img.image = UIImage(named: getCurrentImageName())
+            img.image = UIImage(named: getCurrentImagePath())
         }
     }
     
@@ -201,11 +160,11 @@ import UIKit
         previousTime = currentTime
         currentTime = Date()
         
-        let currentImageName = getCurrentImageName()
+        let currentImageName = getCurrentImagePath()
 
         let onScreen = currentTime! - previousTime!.timeIntervalSince1970
-        writeLine(currentImageName, toFile: trackingFile)
-        print(onScreen)
+        ViewController.writeLine(currentImageName, toFile: ViewController.trackingFile)
+        //print(onScreen)
     }
     
     private func refocusEffect(depth: Int) {
@@ -233,18 +192,18 @@ import UIKit
         displayImage(nextImage)
     }
     
-    private func getCurrentImageName() -> String {
-        var imageName = ""
+    private func getCurrentImagePath() -> String {
+        var imagePath = ""
         
         if let depth = currentImage.depth {
             // if currentImage.depth is defined, use the refocused images
-            imageName = String(format: "Bikes/%03d_%03d_%03d", Int(currentImage.x), Int(currentImage.y), depth)
+            imagePath = String(format: "%@/%03d_%03d_%03d", imageName!, Int(currentImage.x), Int(currentImage.y), depth)
         }else {
             // Otherwise the standard images
-            imageName = String(format: "Bikes/%03d_%03d", Int(currentImage.x), Int(currentImage.y))
+            imagePath = String(format: "%@/%03d_%03d", imageName!, Int(currentImage.x), Int(currentImage.y))
         }
-        
-        return imageName
+        print(imagePath)
+        return imagePath
     }
     
     private func clampInteger(_ x: Int, minimum: Int, maximum: Int) -> Int {

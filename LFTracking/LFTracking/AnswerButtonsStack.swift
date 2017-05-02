@@ -41,7 +41,8 @@ import UIKit
             button.setTitle(String(answers[i]), for: .normal)
             button.backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 1)
             button.layer.cornerRadius = 10
-            button.addTarget(self, action: #selector(ViewController.didAnswer(button:)), for: .touchUpInside)
+            //button.addTarget(self, action: #selector(didAnswer(button:)), for: .touchUpInside)
+            button.addTarget(ViewController.self, action: #selector(ViewController.didAnswer(button:)), for: .touchUpInside)
             
             button.translatesAutoresizingMaskIntoConstraints = false
             button.heightAnchor.constraint(equalToConstant: 32).isActive = true
