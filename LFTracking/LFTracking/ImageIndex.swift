@@ -1,5 +1,5 @@
 //
-//  ImageIndex.swift
+//  SubapertureImage.swift
 //  LFTracking
 //
 //  Created by Tanguy Albrici on 25.04.17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ImageIndex: Equatable {
+class SubapertureImage: Equatable {
     
     public var x: Int
     public var y: Int
@@ -26,7 +26,7 @@ class ImageIndex: Equatable {
         self.depth = depth
     }
     
-    static func == (lhs: ImageIndex, rhs: ImageIndex) -> Bool {
+    static func == (lhs: SubapertureImage, rhs: SubapertureImage) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y && lhs.depth == rhs.depth
     }
     

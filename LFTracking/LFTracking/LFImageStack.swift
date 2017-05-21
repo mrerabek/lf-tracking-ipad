@@ -19,14 +19,14 @@ import UIKit
     }
 
     @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
-    @IBInspectable private var defaultImage: ImageIndex = ImageIndex(x: 7, y: 7, depth: nil)
+    @IBInspectable private var defaultImage: SubapertureImage = SubapertureImage(x: 7, y: 7, depth: nil)
     @IBInspectable private var moveUnit: Int = 20
     @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
     @IBInspectable private var depthResolution: Int = 11
 
-    private var baseImage: ImageIndex = ImageIndex()
-    private var currentImage: ImageIndex = ImageIndex()
-    private var nextImage: ImageIndex = ImageIndex()
+    private var baseImage: SubapertureImage = SubapertureImage()
+    private var currentImage: SubapertureImage = SubapertureImage()
+    private var nextImage: SubapertureImage = SubapertureImage()
     private var depthMap: UIImage! = nil
     private var images: [UIImageView] = [UIImageView]()
     
@@ -63,7 +63,7 @@ import UIKit
         
         let newImgX = clampInteger(Int(baseImage.x) + diffX, minimum: 0, maximum: Int(angularResolution.width) - 1)
         let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: 0, maximum: Int(angularResolution.height) - 1)
-        nextImage = ImageIndex(x: newImgX, y: newImgY, depth: nil)
+        nextImage = SubapertureImage(x: newImgX, y: newImgY, depth: nil)
         
         if(nextImage != currentImage){
             displayImage(nextImage)
@@ -87,7 +87,7 @@ import UIKit
     //MARK: Private Methods
     
     private func didChangeImageName(){
-        depthMap = UIImage(named: "\(imageName!)_depth")
+        depthMap = UIImage(named: "depth_map/\(imageName!)")
         displayImage(defaultImage)
     }
     
@@ -152,7 +152,7 @@ import UIKit
     }
     
     // Display the image
-    private func displayImage(_ imageToDisplay: ImageIndex) {
+    private func displayImage(_ imageToDisplay: SubapertureImage) {
         closeCurrentImage()
         currentImage = imageToDisplay
         
@@ -192,7 +192,7 @@ import UIKit
     }
     
     private func moveFocus(depth: Int) {
-        nextImage = ImageIndex(x: defaultImage.x, y: defaultImage.y, depth: depth)
+        nextImage = SubapertureImage(x: defaultImage.x, y: defaultImage.y, depth: depth)
         
         displayImage(nextImage)
     }
