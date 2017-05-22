@@ -89,14 +89,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         
+        // Create a timestamp prefix for both the tracking and the answers file
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd-hh'h'mm"
+        let timestamp = dateFormatter.string(from: Date()) + "-"
+        
         // Setup tracking file
-        let trackingFileName = "tracking"
+        let trackingFileName = timestamp + "tracking"
         ViewController.trackingFile = DocumentDirURL.appendingPathComponent(trackingFileName).appendingPathExtension("txt")
         ViewController.write("", toFile: ViewController.trackingFile)
         print("trackingFile path: \(ViewController.trackingFile!.path)")
         
         // Setup answers file
-        let answersFileName = "answers"
+        let answersFileName = timestamp + "answers"
         ViewController.answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
         ViewController.write("", toFile: ViewController.answersFile)
     }
