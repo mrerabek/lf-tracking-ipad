@@ -32,6 +32,7 @@ import UIKit
     
     private var previousTime: Date? = nil
     private var currentTime: Date? = nil
+    private let dateFormatter = DateFormatter()
     
     
     //MARK: Initialization
@@ -92,11 +93,9 @@ import UIKit
     }
     
     private func setupImages() {
-
-        baseImage = defaultImage
-        currentImage = defaultImage
         
-        currentTime = Date()
+        baseImage = defaultImage
+        dateFormatter.dateFormat = "HH:mm:ss.SSSSSS"
         
         // Title displayed on top of the images
         let imageTitle = ["Test", "Reference"]
@@ -159,20 +158,29 @@ import UIKit
         for img in images{
             img.image = UIImage(named: getCurrentImagePath())
         }
+
     }
     
     private func closeCurrentImage() {
         previousTime = currentTime
         currentTime = Date()
         
-        let currentImageName = getCurrentImagePath()
-
-        //let onScreen = currentTime! - previousTime!.timeIntervalSince1970
-        ViewController.writeLine(currentImageName, toFile: ViewController.trackingFile)
-        //print(onScreen)
+        if previousTime != nil {
+            let currentImageName = getCurrentImagePath()
+            let onScreen = stringFromTimeInterval(currentTime!.timeIntervalSince(previousTime!))
+            let start = dateFormatter.string(from: previousTime!)
+            let end = dateFormatter.string(from: currentTime!)
+            
+            let toWrite = "\(currentImageName)  start: \(start)  end: \(end)  on-screen: \(onScreen)"
+            
+            ViewController.writeLine(toWrite, toFile: ViewController.trackingFile)
+        }
+        
     }
     
     private func refocusEffect(depth: Int) {
+        let timePerImageSeconds = 0.02
+        
         if var currentDepth = currentImage.depth {
             
             currentDepth += (depth - currentDepth > 0 ? 1 : -1)
@@ -180,7 +188,7 @@ import UIKit
             moveFocus(depth: currentDepth)
             
             if currentDepth != depth {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + timePerImageSeconds, execute: {
                     self.refocusEffect(depth: depth)
                 })
             }
@@ -219,6 +227,19 @@ import UIKit
         precondition(minimum <= maximum, "minimum greater than maximum")
         
         return max(minimum, min(maximum, x))
+    }
+    
+    private func stringFromTimeInterval(_ interval: TimeInterval) -> String {
+        
+        let ti = NSInteger(interval)
+        
+        let ms = Int((interval.truncatingRemainder(dividingBy: 1)) * 1000)
+        
+        let seconds = ti % 60
+        let minutes = (ti / 60) % 60
+        let hours = (ti / 3600)
+        
+        return String(format: "%0.2d:%0.2d:%0.2d.%0.6d",hours,minutes,seconds,ms)
     }
 
 }

@@ -39,10 +39,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func didAnswer(button: UIButton) {
+        // Store the answer in the output file
         let answer = button.titleLabel?.text
         let imgName = imagesName[currentImageIndex].padding(toLength: 30, withPad: " ", startingAt: 0)
         ViewController.writeLine(String(format:"%@%@", imgName, answer!), toFile: ViewController.answersFile)
+        ViewController.writeLine("", toFile: ViewController.trackingFile)
         
+        // Display the next image
         if (!isLastImage()){
             currentImageIndex += 1
             imageStack.imageName = imagesName[currentImageIndex]
@@ -91,7 +94,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Create a timestamp prefix for both the tracking and the answers file
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd-hh'h'mm"
+        dateFormatter.dateFormat = "yyyyMMdd-HH'h'mm"
         let timestamp = dateFormatter.string(from: Date()) + "-"
         
         // Setup tracking file
