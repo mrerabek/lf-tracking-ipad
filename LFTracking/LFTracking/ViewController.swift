@@ -96,8 +96,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         // Create a timestamp prefix for both the tracking and the answers file
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMdd-HH'h'mm"
-        let timestamp = dateFormatter.string(from: Date()) + "-"
+        dateFormatter.dateFormat = "yyyy.MM.dd-HH.mm.ss-"
+        let timestamp = dateFormatter.string(from: Date())
         
         // Setup tracking file
         let trackingFileName = timestamp + "tracking"
