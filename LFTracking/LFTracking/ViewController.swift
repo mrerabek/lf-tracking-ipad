@@ -31,7 +31,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         addButtonsTarget()
         setupOutputFiles()
-        imageStack.imageName = imagesName[currentImageIndex]
+        imageStack.initWithImageName(imagesName[currentImageIndex])
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,12 +43,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let answer = button.titleLabel?.text
         let imgName = imagesName[currentImageIndex].padding(toLength: 30, withPad: " ", startingAt: 0)
         ViewController.writeLine(String(format:"%@%@", imgName, answer!), toFile: ViewController.answersFile)
-        ViewController.writeLine("", toFile: ViewController.trackingFile)
+        imageStack.closeCurrentImage()
         
-        // Display the next image
-        if (!isLastImage()){
-            currentImageIndex += 1
-            imageStack.imageName = imagesName[currentImageIndex]
+        if (isLastImage()){
+            // Display the end screen
+            self.performSegue(withIdentifier: "finishedSegue", sender: nil)
+        }else{
+            // Display the next image
+            nextImage()
         }
     }
     
@@ -107,6 +109,12 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let answersFileName = timestamp + "answers"
         ViewController.answersFile = DocumentDirURL.appendingPathComponent(answersFileName).appendingPathExtension("txt")
         ViewController.write("", toFile: ViewController.answersFile)
+    }
+    
+    private func nextImage() {
+        ViewController.writeLine("", toFile: ViewController.trackingFile)
+        currentImageIndex += 1
+        imageStack.setNewImageName(imagesName[currentImageIndex])
     }
     
     private func isLastImage() -> Bool {

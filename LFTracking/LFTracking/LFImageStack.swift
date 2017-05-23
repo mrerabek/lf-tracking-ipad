@@ -12,11 +12,7 @@ import UIKit
     
     //MARK: Properties
     
-    var imageName: String? = nil {
-        didSet {
-            didChangeImageName()
-        }
-    }
+    var imageName: String? = nil
 
     @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
     @IBInspectable private var defaultImage: SubapertureImage = SubapertureImage(x: 7, y: 7, depth: nil)
@@ -49,6 +45,29 @@ import UIKit
         setupImages()
     }
     
+    //MARK: Public Methods
+    
+    func initWithImageName(_ imageName: String) {
+        currentTime = Date()
+        setNewImageName(imageName)
+    }
+    
+    func closeCurrentImage() {
+        previousTime = currentTime
+        currentTime = Date()
+        
+        if previousTime != nil {
+            let currentImageName = getCurrentImagePath()
+            let onScreen = stringFromTimeInterval(currentTime!.timeIntervalSince(previousTime!))
+            let start = dateFormatter.string(from: previousTime!)
+            let end = dateFormatter.string(from: currentTime!)
+            
+            let toWrite = "\(currentImageName)  start: \(start)  end: \(end)  on-screen: \(onScreen)"
+            
+            ViewController.writeLine(toWrite, toFile: ViewController.trackingFile)
+        }
+    }
+    
     //MARK: Gesture Handlers
     
     func touchImage(touchGesture: UITapGestureRecognizer){
@@ -66,9 +85,7 @@ import UIKit
         let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: 0, maximum: Int(angularResolution.height) - 1)
         nextImage = SubapertureImage(x: newImgX, y: newImgY, depth: nil)
         
-        if(nextImage != currentImage){
-            displayImage(nextImage)
-        }
+        updateImage(nextImage)
         
     }
     
@@ -87,7 +104,8 @@ import UIKit
     
     //MARK: Private Methods
     
-    private func didChangeImageName(){
+    func setNewImageName(_ newImageName: String){
+        imageName = newImageName
         depthMap = UIImage(named: "depth_map/\(imageName!)")
         displayImage(defaultImage)
     }
@@ -150,32 +168,23 @@ import UIKit
         
     }
     
-    // Display the image
+    // Display the given image if it is different from the current one
+    private func updateImage(_ newImage: SubapertureImage) {
+        if newImage != currentImage {
+            closeCurrentImage()
+            displayImage(newImage)
+        }
+        
+    }
+    
+    // Display the given image
     private func displayImage(_ imageToDisplay: SubapertureImage) {
-        closeCurrentImage()
         currentImage = imageToDisplay
         
         for img in images{
             img.image = UIImage(named: getCurrentImagePath())
         }
 
-    }
-    
-    private func closeCurrentImage() {
-        previousTime = currentTime
-        currentTime = Date()
-        
-        if previousTime != nil {
-            let currentImageName = getCurrentImagePath()
-            let onScreen = stringFromTimeInterval(currentTime!.timeIntervalSince(previousTime!))
-            let start = dateFormatter.string(from: previousTime!)
-            let end = dateFormatter.string(from: currentTime!)
-            
-            let toWrite = "\(currentImageName)  start: \(start)  end: \(end)  on-screen: \(onScreen)"
-            
-            ViewController.writeLine(toWrite, toFile: ViewController.trackingFile)
-        }
-        
     }
     
     private func refocusEffect(depth: Int) {
@@ -202,7 +211,7 @@ import UIKit
     private func moveFocus(depth: Int) {
         nextImage = SubapertureImage(x: defaultImage.x, y: defaultImage.y, depth: depth)
         
-        displayImage(nextImage)
+        updateImage(nextImage)
     }
     
     private func getCurrentImagePath() -> String {
@@ -233,13 +242,13 @@ import UIKit
         
         let ti = NSInteger(interval)
         
-        let ms = Int((interval.truncatingRemainder(dividingBy: 1)) * 1000)
+        let microsec = Int((interval.truncatingRemainder(dividingBy: 1)) * 1000000)
         
         let seconds = ti % 60
         let minutes = (ti / 60) % 60
         let hours = (ti / 3600)
         
-        return String(format: "%0.2d:%0.2d:%0.2d.%0.6d",hours,minutes,seconds,ms)
+        return String(format: "%0.2d:%0.2d:%0.2d.%0.6d",hours,minutes,seconds,microsec)
     }
 
 }
