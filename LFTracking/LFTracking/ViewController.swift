@@ -38,6 +38,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    // Method called when the user chose an answer by tapping on a button
     func didAnswer(button: UIButton) {
         // Store the answer in the output file
         let answer = button.titleLabel?.text
@@ -56,6 +57,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: Static Methods
     
+    // Write the given string by overwritting in the given file
     static func write(_ string: String, toFile: URL?){
         if let fileURL = toFile {
             do {
@@ -67,6 +69,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // Write the given text as a new line in the given file
     static func writeLine(_ string: String, toFile: URL?){
         if let fileURL = toFile {
             let fileHandle: FileHandle? = FileHandle(forUpdatingAtPath: fileURL.path)
@@ -84,12 +87,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: Private Methods
     
+    // Set the target of each button corresponding to an answer
     private func addButtonsTarget() {
         for button in answerButtonsStack.buttons{
             button.addTarget(self, action: #selector(ViewController.didAnswer(button:)), for: .touchUpInside)
         }
     }
     
+    // Set up the tracking and answers output files
     private func setupOutputFiles() {
         
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -111,12 +116,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         ViewController.write("", toFile: ViewController.answersFile)
     }
     
+    // Display the next image
     private func nextImage() {
         ViewController.writeLine("", toFile: ViewController.trackingFile)
         currentImageIndex += 1
         imageStack.setNewImageName(imagesName[currentImageIndex])
     }
     
+    // Return true if the current image is the last one
     private func isLastImage() -> Bool {
         return currentImageIndex >= (imagesName.count - 1)
     }

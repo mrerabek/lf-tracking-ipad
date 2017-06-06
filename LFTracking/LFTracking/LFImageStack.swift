@@ -47,11 +47,13 @@ import UIKit
     
     //MARK: Public Methods
     
+    // Initializes the LFImageStack with the name of the first image to display
     func initWithImageName(_ imageName: String) {
         currentTime = Date()
         setNewImageName(imageName)
     }
     
+    // Perform actions necessary when an image is replaced by another
     func closeCurrentImage() {
         previousTime = currentTime
         currentTime = Date()
@@ -70,10 +72,12 @@ import UIKit
     
     //MARK: Gesture Handlers
     
+    // Called when the user touches one of the images
     func touchImage(touchGesture: UITapGestureRecognizer){
         baseImage = currentImage
     }
     
+    // Called when the user moves his finger while touching the image
     func moveImage(panGesture: UIPanGestureRecognizer) {
         
         let translation = panGesture.translation(in: self)
@@ -89,6 +93,7 @@ import UIKit
         
     }
     
+    // Called whe the user double-taps on on of the images
     func refocusImage(tapGesture: UITapGestureRecognizer){
         if let depthMapImage = depthMap {
             
@@ -110,6 +115,7 @@ import UIKit
         displayImage(defaultImage)
     }
     
+    // Set up the GUI needed to display the side-by-side images
     private func setupImages() {
         
         baseImage = defaultImage
@@ -187,6 +193,7 @@ import UIKit
 
     }
     
+    // Animates the refocusing to the given depth in a smooth transition
     private func refocusEffect(depth: Int) {
         let timePerImageSeconds = 0.02
         
@@ -208,12 +215,14 @@ import UIKit
         
     }
     
+    // Displays the image corresponding to the given focus depth
     private func moveFocus(depth: Int) {
         nextImage = SubapertureImage(x: defaultImage.x, y: defaultImage.y, depth: depth)
         
         updateImage(nextImage)
     }
     
+    // Return the path of the current image
     private func getCurrentImagePath() -> String {
         var imagePath = ""
         
@@ -232,12 +241,14 @@ import UIKit
         return imagePath
     }
     
+    // Clamp the integer x between the given minimum and maximum
     private func clampInteger(_ x: Int, minimum: Int, maximum: Int) -> Int {
         precondition(minimum <= maximum, "minimum greater than maximum")
         
         return max(minimum, min(maximum, x))
     }
     
+    // Create a string corresponding to the given time interval
     private func stringFromTimeInterval(_ interval: TimeInterval) -> String {
         
         let ti = NSInteger(interval)
@@ -255,6 +266,7 @@ import UIKit
 
 
 extension UIImage {
+    // Return the RGB color of the pixel that is at the given position
     func getPixelColor(pos: CGPoint) -> UIColor {
         
         let pixelData = self.cgImage!.dataProvider!.data
@@ -270,6 +282,7 @@ extension UIImage {
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
     
+    // Return the value of the pixel of a grayscale image that is at the given position
     func getPixelColorGrayscale(pos: CGPoint) -> CGFloat {
         
         let pixelData = self.cgImage!.dataProvider!.data

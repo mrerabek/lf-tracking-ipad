@@ -33,6 +33,7 @@ import UIKit
     
     //MARK: Private Methods
     
+    // Creates the buttons in the GUI
     private func setupButtons() {
         
         for i in 0..<answers.count {

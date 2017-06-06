@@ -37,6 +37,10 @@
                                     <segue destination="BYZ-38-t0r" kind="show" id="EDh-EO-zmt"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mmspg" translatesAutoresizingMaskIntoConstraints="NO" id="3yu-gy-ROw">
+                                <rect key="frame" x="427" y="593" width="171" height="155"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -72,6 +76,10 @@
                                 <rect key="frame" x="212" y="564" width="600" height="105"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mmspg" translatesAutoresizingMaskIntoConstraints="NO" id="QNe-tz-ofF">
+                                <rect key="frame" x="890" y="645" width="114" height="103"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -120,6 +128,10 @@
                                     <segue destination="aiX-rE-dVb" kind="show" id="qbp-MH-gD0"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mmspg" translatesAutoresizingMaskIntoConstraints="NO" id="2nS-EH-ukv">
+                                <rect key="frame" x="427" y="593" width="171" height="155"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -129,4 +141,7 @@
             <point key="canvasLocation" x="815.625" y="126.5625"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="mmspg" width="343" height="310"/>
+    </resources>
 </document>
