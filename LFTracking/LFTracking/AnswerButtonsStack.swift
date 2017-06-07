@@ -10,8 +10,12 @@ import UIKit
 
 @IBDesignable class AnswerButtonsStack: UIStackView {
     
-    //MARK: Properties
+    //MARK: Parameters
+    
+    // Possible answers to the question (i.e. grades)
     private let answers = [1, 2, 3, 4, 5]
+    
+    // Descriptions corresponding to each of the answers
     private let answersDescription = ["Very annoying",
                                       "Annoying",
                                       "Slightly annoying",

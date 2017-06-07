@@ -8,18 +8,30 @@
 
 import UIKit
 
-@IBDesignable class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
+class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     
-    //MARK: Properties
+    //MARK: Parameters
     
+    // Size of the image on the screen
+    private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
+    
+    // First image to be displayed
+    private var defaultImage: SubapertureImage = SubapertureImage(x: 7, y: 7, depth: nil)
+    
+    // Number of viewpoints in the u and v axis
+    private var angularResolution: CGSize = CGSize(width: 15, height: 15)
+    
+    // Number of refocused images
+    private var depthResolution: Int = 11
+    
+    // Number of pixels one should move to switch to another viewpoint
+    private var moveUnit: Int = 20
+
+    
+    //MARK: Other attributes
+
     var imageName: String? = nil
-
-    @IBInspectable private var imageSize: CGSize = CGSize(width: 469.5, height: 325.5)
-    @IBInspectable private var defaultImage: SubapertureImage = SubapertureImage(x: 7, y: 7, depth: nil)
-    @IBInspectable private var moveUnit: Int = 20
-    @IBInspectable private var angularResolution: CGSize = CGSize(width: 15, height: 15)
-    @IBInspectable private var depthResolution: Int = 11
-
+    
     private var baseImage: SubapertureImage = SubapertureImage()
     private var currentImage: SubapertureImage = SubapertureImage()
     private var nextImage: SubapertureImage = SubapertureImage()

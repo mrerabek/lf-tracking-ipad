@@ -19,6 +19,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     static var answersFile: URL? = nil
     
     private var currentImageIndex: Int = 0
+    
+    // Name of the images to be assessed
     private var imagesName: [String] = ["Bikes",
                                         "Danger_de_Mort",
                                         "Flowers"]
