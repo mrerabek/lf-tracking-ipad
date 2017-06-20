@@ -21,9 +21,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     private var currentImageIndex: Int = 0
     
     // Name of the images to be assessed
-    private var imagesName: [String] = ["Bikes",
-                                        "Danger_de_Mort",
-                                        "Flowers"]
+    private var imagesName: [String] = ["I01R1"]
+//                                        "I02R2"]
+//                                        "Danger_de_Mort",
+//                                        "Flowers"]
 //                                        "Fountain_&_Vincent_2",
 //                                        "Friends_1",
 //                                        "Stone_Pillars_Outside", ]

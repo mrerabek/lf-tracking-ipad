@@ -19,7 +19,10 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     private var defaultImage: SubapertureImage = SubapertureImage(x: 7, y: 7, depth: nil)
     
     // Number of viewpoints in the u and v axis
-    private var angularResolution: CGSize = CGSize(width: 15, height: 15)
+    private var angularResolution: CGSize = CGSize(width: 9, height: 9)
+    
+    // Coordinates of the top-left image
+    private var topLeft: CGPoint = CGPoint(x: 3, y: 3)
     
     // Number of refocused images
     private var depthResolution: Int = 11
@@ -30,7 +33,8 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     
     //MARK: Other attributes
 
-    var imageName: String? = nil
+    var testImageName: String? = nil
+    var refImageName: String? = nil
     
     private var baseImage: SubapertureImage = SubapertureImage()
     private var currentImage: SubapertureImage = SubapertureImage()
@@ -71,12 +75,12 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
         currentTime = Date()
         
         if previousTime != nil {
-            let currentImageName = getCurrentImagePath()
+            let currentImagePath = getCurrentImagePath(imageFolder: testImageName)
             let onScreen = stringFromTimeInterval(currentTime!.timeIntervalSince(previousTime!))
             let start = dateFormatter.string(from: previousTime!)
             let end = dateFormatter.string(from: currentTime!)
             
-            let toWrite = "\(currentImageName)  start: \(start)  end: \(end)  on-screen: \(onScreen)"
+            let toWrite = "\(currentImagePath)  start: \(start)  end: \(end)  on-screen: \(onScreen)"
             
             ViewController.writeLine(toWrite, toFile: ViewController.trackingFile)
         }
@@ -97,8 +101,8 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
         let diffX = Int(-translation.x / CGFloat(moveUnit))
         let diffY = Int(-translation.y / CGFloat(moveUnit))
         
-        let newImgX = clampInteger(Int(baseImage.x) + diffX, minimum: 0, maximum: Int(angularResolution.width) - 1)
-        let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: 0, maximum: Int(angularResolution.height) - 1)
+        let newImgX = clampInteger(Int(baseImage.x) + diffX, minimum: Int(topLeft.x), maximum: Int(topLeft.x) + Int(angularResolution.width) - 1)
+        let newImgY = clampInteger(Int(baseImage.y) + diffY, minimum: Int(topLeft.y), maximum: Int(topLeft.y) + Int(angularResolution.height) - 1)
         nextImage = SubapertureImage(x: newImgX, y: newImgY, depth: nil)
         
         updateImage(nextImage)
@@ -122,8 +126,10 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     //MARK: Private Methods
     
     func setNewImageName(_ newImageName: String){
-        imageName = newImageName
-        depthMap = UIImage(named: "depth_map/\(imageName!)")
+        testImageName = newImageName
+        refImageName = newImageName.components(separatedBy:"R")[0] + "R0"
+        depthMap = UIImage(named: "depth_map/\(refImageName!)")
+
         displayImage(defaultImage)
     }
     
@@ -141,7 +147,7 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
             
             let myBundle = Bundle(for: type(of: self))
             let img = UIImageView()
-            img.image = UIImage(named: getCurrentImagePath(), in: myBundle, compatibleWith: self.traitCollection)
+            img.image = UIImage(named: getCurrentImagePath(imageFolder: nil), in: myBundle, compatibleWith: self.traitCollection)
             
             img.isUserInteractionEnabled = true
             
@@ -199,9 +205,8 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     private func displayImage(_ imageToDisplay: SubapertureImage) {
         currentImage = imageToDisplay
         
-        for img in images{
-            img.image = UIImage(named: getCurrentImagePath())
-        }
+        images[0].image = UIImage(named: getCurrentImagePath(imageFolder: testImageName))
+        images[1].image = UIImage(named: getCurrentImagePath(imageFolder: refImageName))
 
     }
     
@@ -235,16 +240,16 @@ class LFImageStack: UIStackView, UIGestureRecognizerDelegate {
     }
     
     // Return the path of the current image
-    private func getCurrentImagePath() -> String {
+    private func getCurrentImagePath(imageFolder: String?) -> String {
         var imagePath = ""
         
-        if let imgName = imageName {
+        if let imgFolder = imageFolder {
             if let depth = currentImage.depth {
                 // if currentImage.depth is defined, use the refocused images
-                imagePath = String(format: "%@/%03d_%03d_%03d", imgName, Int(currentImage.x), Int(currentImage.y), depth)
+                imagePath = String(format: "%@/%03d_%03d_%03d", imgFolder, Int(currentImage.x), Int(currentImage.y), depth)
             }else {
                 // Otherwise the standard images
-                imagePath = String(format: "%@/%03d_%03d", imgName, Int(currentImage.x), Int(currentImage.y))
+                imagePath = String(format: "%@/%03d_%03d", imgFolder, Int(currentImage.x), Int(currentImage.y))
             }
         } else {
             // if the imageName is not set, put the default image
