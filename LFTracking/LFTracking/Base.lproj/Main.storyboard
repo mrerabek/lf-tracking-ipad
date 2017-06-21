@@ -38,11 +38,11 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mmspg" translatesAutoresizingMaskIntoConstraints="NO" id="3yu-gy-ROw">
-                                <rect key="frame" x="551" y="632" width="112" height="101"/>
+                                <rect key="frame" x="551" y="647" width="112" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="epfl" translatesAutoresizingMaskIntoConstraints="NO" id="q1J-Kq-mKe">
-                                <rect key="frame" x="362" y="632" width="189" height="101"/>
+                                <rect key="frame" x="362" y="647" width="189" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -137,7 +137,11 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mmspg" translatesAutoresizingMaskIntoConstraints="NO" id="2nS-EH-ukv">
-                                <rect key="frame" x="427" y="593" width="171" height="155"/>
+                                <rect key="frame" x="547" y="657" width="101" height="91"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="epfl" translatesAutoresizingMaskIntoConstraints="NO" id="Rdm-6Q-ang">
+                                <rect key="frame" x="376" y="657" width="171" height="91"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
